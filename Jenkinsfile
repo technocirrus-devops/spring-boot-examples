@@ -34,15 +34,22 @@ pipeline { //Start of declerative pipeline
 		stage ("Maven Build") { //Maven build source code
 			steps {dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server") {
                 script {
-                    def mvn_version = 'mvn' //Define the name of the maven configured in global tool configuration of Jenkins
-					withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
-						sh 'mvn clean install' 
-					}
-                }
+                    	def mvn_version = 'mvn' //Define the name of the maven configured in global tool configuration of Jenkins
+						withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+							sh 'mvn clean install' 
+						}
+                	}
+				}
 			}
 		}
-
-		}
+		stage ('Sonar scan') {
+            steps {dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server") {
+               	withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonar') {
+                	sh 'mvn clean package sonar:sonar'
+                	}
+				}
+            }
+        }
 		stage ("Build Docker image") { //Build docker image
 			steps {
 				dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server"){
