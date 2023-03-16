@@ -60,7 +60,7 @@ pipeline { //Start of declerative pipeline
 					script{
 						sh 'TASK_DEFINITION= $(aws ecs describe-task-definition --task-definition eureka --region="us-east-2")' 
 						//sh 'echo ${TASK_DEFINITION}'
-						sh 'echo TASK_DEFINITION | jq '/.containerDefinitions[0].image=/'${customImage}  > task-def.json'
+						sh 'echo TASK_DEFINITION | jq '/.containerDefinitions[0].image=/'$customImage  > task-def.json'
 						sh 'aws ecs register-task-definition — family "eureka" — region="us-east-2" — cli-input-json file://task-def.json'
 					}
 				}
