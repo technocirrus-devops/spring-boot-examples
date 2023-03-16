@@ -30,9 +30,9 @@ pipeline { //Start of declerative pipeline
 					withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
 						//sh 'docker run --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install'
 						sh 'mvn clean install' // -DskipTests=true -B' //Maven build
-						#sh "mvn checkstyle:checkstyle"
-						#recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
-						sh "cp */target/*.jar Docker/eureka/" //Copy jar files from target directory to Docker directory
+						//sh "mvn checkstyle:checkstyle"
+						//recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+						//sh "cp */target/*.jar Docker/eureka/" //Copy jar files from target directory to Docker directory
 					}
                 }
 			}
