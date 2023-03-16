@@ -47,15 +47,12 @@ pipeline { //Start of declerative pipeline
 		stage ("Push docker image and clean docker images") { //Push docker image to Nexus repository
 			steps {
 				script {
-					registry = "http://${params.dockerrepo}"
-					print "Resitry URL is : ${registry}"
-					docker.withRegistry(url: 'https://639756382547.dkr.ecr.us-east-2.amazonaws.com') { //Using inbuilt method withRegistry we can interact with custom registires
-					//withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-					customImage.push() //Push the docker image
-					}
-                   			 sh "docker rmi ${params.dockerrepo}:version${BUILD_NUMBER}" //Remove the local docker image
-               			 }
-           		 }
+              customImage.push()
+				}
+            }
 	}
 }
 }
+
+
+
