@@ -14,6 +14,9 @@ pipeline { //Start of declerative pipeline
 		choice(name: 'EXECUTION_ROLE_ARN', choices: 'arn:aws:iam::639756382547:role/ecsTaskExecutionRole')
 
     }
+    environment {
+	SHORT_COMMIT = "${GIT_COMMIT[0..7]}"
+    }
 	stages { //block of operations to be performed under pipeline
 	    stage ('Clean Workspace') { //Clean the workspace directory before other steps
           steps {
