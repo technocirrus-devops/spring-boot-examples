@@ -51,8 +51,11 @@ pipeline { //Start of declerative pipeline
             docker.withRegistry("https://639756382547.dkr.ecr.us-east-2.amazonaws.com", "ecr:us-east-2:${AWS_ACCESS_KEY_ID}") {
               customImage.push()
             }
+		  }
 	}
 }
+}
+	}
 }
 
 
