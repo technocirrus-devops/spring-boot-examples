@@ -60,3 +60,5 @@ pipeline { //Start of declerative pipeline
            		 }
 	}
 }
+
+}
