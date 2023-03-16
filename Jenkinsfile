@@ -10,7 +10,7 @@ pipeline { //Start of declerative pipeline
 		choice(name: 'REPOSITORY_URI', choices: "639756382547.dkr.ecr.us-east-2.amazonaws.com/eureka", description: "Docker repo URL")
 		choice(name: 'SERVICE_NAME', choices: 'eureka')
 		choice(name: 'TASK_FAMILY', choices: 'eureka')
-		choice(name: 'CLUSTER_NAME', choices: 'eureka')
+		choice(name: 'CLUSTER_NAME', choices: 'Eureka')
 		choice(name: 'EXECUTION_ROLE_ARN', choices: 'arn:aws:iam::639756382547:role/ecsTaskExecutionRole')
 
     }
