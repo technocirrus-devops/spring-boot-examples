@@ -59,6 +59,7 @@ pipeline { //Start of declerative pipeline
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '811ae73e-4c04-45ff-b032-e85e23a378a0']]) {
 					script{
 						sh 'TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition eureka --region="us-east-2")'
+						sh 'echo ${TASK_DEFINITION}'
 						//sh 'echo ${TASK_DEFINITION} | jq '/.containerDefinitions[0].image=/'${customImage}  > task-def.json'
 						sh 'aws ecs register-task-definition — family "eureka" — region="us-east-2" — cli-input-json file://task-def.json'
 					}
