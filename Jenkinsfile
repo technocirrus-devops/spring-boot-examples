@@ -50,10 +50,33 @@ pipeline { //Start of declerative pipeline
           script {
             sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 639756382547.dkr.ecr.us-east-2.amazonaws.com'
 			customImage.push()
-		  }
+		  		}
+			}
+		}
 	}
-}
-}
+		stage('Deploy to ECS Fargate') {
+			steps {
+				script {
+				def taskDef = """
+					{
+					\"family\": \"eureka\",
+					\"containerDefinitions\": [{
+						\"name\": \"eureka\",
+						\"image\": \"${params.dockerrepo}:version${BUILD_NUMBER}\",
+						\"cpu\": 256,
+						\"memory\": 512,
+						\"portMappings\": [{
+						\"containerPort\": 8761,
+						\"protocol\": \"tcp\"
+						}]
+					}]
+					}
+				"""
+				ecsFargateRunTask taskDefinition: taskDef, cluster: Eureka, launchType: 'FARGATE', taskGroup: 'eureka', subnetIds: 'subnet-0418e5de3c9aee90b', securityGroupIds: 'sg-03a1603576734cfe3'
+				ecsFargateUpdateService cluster: Eureka, service: eureka, taskDefinition: "${params.dockerrepo}:version${BUILD_NUMBER}"
+				}
+			}
+		}
 	}
 }
 
