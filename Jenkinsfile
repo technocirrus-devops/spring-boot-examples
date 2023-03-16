@@ -72,8 +72,8 @@ pipeline { //Start of declerative pipeline
 					}]
 					}
 				"""
-				ecsFargateRunTask taskDefinition: taskDef, cluster: Eureka, launchType: 'FARGATE', taskGroup: 'eureka', subnetIds: 'subnet-0418e5de3c9aee90b', securityGroupIds: 'sg-03a1603576734cfe3'
-				ecsFargateUpdateService cluster: Eureka, service: eureka, taskDefinition: "${params.dockerrepo}:version${BUILD_NUMBER}"
+				ecsFargateRunTask taskDefinition: taskDef, cluster: 'Eureka', launchType: 'FARGATE', taskGroup: 'eureka', subnetIds: 'subnet-0418e5de3c9aee90b', securityGroupIds: 'sg-03a1603576734cfe3'
+				ecsFargateUpdateService cluster: "Eureka", service: eureka, taskDefinition: "${params.dockerrepo}:version${BUILD_NUMBER}"
 				}
 			}
 		}
