@@ -49,13 +49,13 @@ pipeline { //Start of declerative pipeline
 				script {
 					registry = "http://${params.dockerrepo}"
 					print "Resitry URL is : ${registry}"
-					//docker.withRegistry(url: '${registry}', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491') { //Using inbuilt method withRegistry we can interact with custom registires
+					docker.withRegistry(url: '${registry}') { //Using inbuilt method withRegistry we can interact with custom registires
 					//withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-					sh "docker login --password=${PASSWORD} --username=${USERNAME} ${registry}"
+					sh "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 639756382547.dkr.ecr.us-east-2.amazonaws.com"
 
 					customImage.push() //Push the docker image
 					}
-                   			 sh "docker rmi ${params.dockerrepo}/eureka-repo:version${BUILD_NUMBER}" //Remove the local docker image
+                   			 sh "docker rmi ${params.dockerrepo}:version${BUILD_NUMBER}" //Remove the local docker image
                			 }
            		 }
 	}
