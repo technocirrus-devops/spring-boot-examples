@@ -51,34 +51,12 @@ pipeline { //Start of declerative pipeline
 					print "Resitry URL is : ${registry}"
 					//docker.withRegistry(url: '${registry}', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491') { //Using inbuilt method withRegistry we can interact with custom registires
 					//withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-	sh "docker login --password=${PASSWORD} --username=${USERNAME} ${registry}"
+					sh "docker login --password=${PASSWORD} --username=${USERNAME} ${registry}"
 
 					customImage.push() //Push the docker image
 					}
                    			 sh "docker rmi ${params.dockerrepo}/eureka-repo:version${BUILD_NUMBER}" //Remove the local docker image
                			 }
            		 }
-		}
-		stage ("Start containers") { //Start docker containers
-			steps {
-				dir("Docker/"){ //Execute script in Docker directory
-					script {
-						//docker.withRegistry(${registry}, 'e874664f-6680-4efa-bccd-c0dd15626491') { //Using inbuilt method withRegistry to pull docker image
-						 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'e874664f-6680-4efa-bccd-c0dd15626491', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-        						//sh "docker login --password=${PASSWORD} --username=${USERNAME} ${registry}"
-							//sh "sed -i \"s;latest;version${BUILD_NUMBER};g\" docker-compose.yml" //Modifying yml file with the tag name for new docker image
-							//sh "sed -i \"s;reponame;${params.dockerrepo};g\" docker-compose.yml"
-							//sh "docker-compose up -d" //Starting docker container 
-							sh "sed -i \"s;latest;version${BUILD_NUMBER};g\" springBootMongo.yml" //Modifying yml file with the tag name for new docker image
-							sh "sed -i \"s;reponame;${params.dockerrepo};g\" springBootMongo.yml"
-							def ipaddress = sh(script: "cat ../ipaddress.txt", returnStdout: true)
-							//sh "sed -i \"s/ipaddr/${ipaddress}/g\" script.sh"
-							sh "chmod +x script.sh"
-							sh "sh script.sh"
-								}
-					}
-				}
-			}
-		
-		}
 	}
+}
