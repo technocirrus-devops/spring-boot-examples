@@ -44,28 +44,30 @@ pipeline { //Start of declerative pipeline
 			steps {
 				dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server"){
                     script {
-                        customImage = docker.build("${params.dockerrepo}:version${BUILD_NUMBER}","-f Dockerfile .") //Using inbuilt method of docker image is built
+                        //customImage = docker.build("${params.dockerrepo}:version${BUILD_NUMBER}","-f Dockerfile .") //Using inbuilt method of docker image is built
+						def dockerImage = docker.build("$REPOSITORY_URI", ".")
                     }
                 }
             }
 		}
 		stage ("Push docker image and clean docker images") { //Push docker image to Nexus repository
 			steps {
-				//withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '811ae73e-4c04-45ff-b032-e85e23a378a0']]) {
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '811ae73e-4c04-45ff-b032-e85e23a378a0']]) {
                 script {
-                  //     sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 639756382547.dkr.ecr.us-east-2.amazonaws.com'
+                       sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 639756382547.dkr.ecr.us-east-2.amazonaws.com'
 			         //  customImage.push()
-					   withElasticContainerRegistry {
+					   //withElasticContainerRegistry {
                         // Push to ECR
                         docker.image("$REPOSITORY_URI").push("$SHORT_COMMIT")
-                       }
+                       //}
 	                }
 	            }
             }
-	    //}
+	    }
 		stage('Deploy Image to ECS') {
             steps{
-                // prepare task definition file
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '811ae73e-4c04-45ff-b032-e85e23a378a0']]) {
+				// prepare task definition file
                 sh """sed -e "s;%REPOSITORY_URI%;${REPOSITORY_URI};g" -e "s;%SHORT_COMMIT%;${SHORT_COMMIT};g" -e "s;%TASK_FAMILY%;${TASK_FAMILY};g" -e "s;%SERVICE_NAME%;${SERVICE_NAME};g" -e "s;%EXECUTION_ROLE_ARN%;${EXECUTION_ROLE_ARN};g" taskdef_template.json > taskdef_${SHORT_COMMIT}.json"""
                 script {
                     // Register task definition
@@ -78,6 +80,6 @@ pipeline { //Start of declerative pipeline
                 }
             }
         }
-
+	}
 }
 }
