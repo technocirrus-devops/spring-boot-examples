@@ -48,9 +48,8 @@ pipeline { //Start of declerative pipeline
 			steps {
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '811ae73e-4c04-45ff-b032-e85e23a378a0']]) {
           script {
-            docker.withRegistry("https://639756382547.dkr.ecr.us-east-2.amazonaws.com", "811ae73e-4c04-45ff-b032-e85e23a378a0") {
-              customImage.push()
-            }
+            sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 639756382547.dkr.ecr.us-east-2.amazonaws.com'
+			customImage.push()
 		  }
 	}
 }
