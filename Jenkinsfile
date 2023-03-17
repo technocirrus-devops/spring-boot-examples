@@ -16,6 +16,7 @@ pipeline { //Start of declerative pipeline
     }
     environment {
 	SHORT_COMMIT = "${GIT_COMMIT[0..7]}"
+	PATH = "$PATH:/var/lib/jenkins/maven/bin"
     }
     stages { //block of operations to be performed under pipeline
     	stage ('Clean Workspace') { //Clean the workspace directory before other steps
