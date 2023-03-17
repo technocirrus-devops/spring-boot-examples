@@ -44,10 +44,7 @@ pipeline { //Start of declerative pipeline
 	stage ('Sonar scan') {
         	steps {dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server") {
                		withSonarQubeEnv('sonar') {
-				def mvn_version = 'Maven' //Define the name of the maven configured in global tool configuration of Jenkins
-				withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
-					sh 'mvn clean package sonar:sonar' 
-				}
+				sh 'mvn clean package sonar:sonar' 
                 	}
 		}
             }
