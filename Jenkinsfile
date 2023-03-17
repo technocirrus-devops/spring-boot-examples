@@ -44,7 +44,6 @@ pipeline { //Start of declerative pipeline
 	stage ('Sonar scan') {
         	steps {dir("spring-boot-basic-microservice/spring-boot-microservice-eureka-naming-server") {
                		withSonarQubeEnv('sonar') {
-				sh 'mvn --version'
 				sh '/var/lib/jenkins/maven --version'
                 		sh 'mvn clean package sonar:sonar'
                 	}
