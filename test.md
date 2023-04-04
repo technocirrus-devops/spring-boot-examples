@@ -32,7 +32,7 @@ No modules.
 | <a name="input_route53_simple_records"></a> [route53\_simple\_records](#input\_route53\_simple\_records) | Route 53 non alias records | `list(object({}))` | `""` | no |
 | <a name="input_route53_alias_records"></a> [route53\_alias\_records](#input\_route53\_alias\_records) | Route53 Alias records | `list(object({}))` | `""` | no |
 | <a name="input_tag_name"></a> [tag\_name](#input\_tag\_name) | Name tag for Route53 Zone | `string` | `""` | no |
-| <a name="input_local_secondary_indexes"></a> [local\_secondary\_indexes](#input\_local\_secondary\_indexes) | n/a | list(object({ <br>name = string<br>range_key = string<br>projection_type = string<br>non_key_attributes = list(string)<br>  })) | `""` | no |
+| <a name="input_local_secondary_indexes"></a> [local\_secondary\_indexes](#input\_local\_secondary\_indexes) | n/a | list(object({ <br>  name = string <br>  range_key = string <br>  projection_type = string <br>  non_key_attributes = list(string)<br>  })) | `""` | no |
 
 
 ## Outputs
