@@ -47,3 +47,5 @@ No modules.
 | -------- | -------- |
 | Row 1, Cell 1<br>Row 1, Cell 1 continued | Row 1, Cell 2 |
 | Row 2, Cell 1<br>Row 2, Cell 1 continued<br>Row 2, Cell 1 continued further | Row 2, Cell 2 |
+
+[Link to documentation](./spring-boot-2-jdbc-with-h2/src)
